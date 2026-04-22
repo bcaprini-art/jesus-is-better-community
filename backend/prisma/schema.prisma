@@ -1,0 +1,171 @@
+// Jesus Is Better Community — Prisma Schema
+// Designed for up to 1,000,000 users
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  MEMBER
+  MODERATOR
+  PASTOR
+  ADMIN
+}
+
+enum PrayerCategory {
+  GENERAL
+  HEALING
+  FAMILY
+  GRIEF
+  PROVISION
+  GUIDANCE
+  SALVATION
+  PRAISE
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  avatar    String?
+  bio       String?  @db.Text
+  location  String?
+  role      UserRole @default(MEMBER)
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  comments      Comment[]
+  prayers       PrayerRequest[]
+  intercessions Intercession[]
+  likes         CommentLike[]
+  prayerLikes   PrayerLike[]
+
+  @@index([email])
+  @@index([role])
+  @@index([createdAt])
+}
+
+model Sermon {
+  id              String   @id @default(cuid())
+  title           String
+  description     String   @db.Text
+  scriptureRef    String
+  seriesName      String?
+  videoUrl        String?
+  audioUrl        String?
+  thumbnailUrl    String?
+  publishedAt     DateTime
+  durationSeconds Int?
+  featured        Boolean  @default(false)
+  tags            String[]
+  createdAt       DateTime @default(now())
+
+  comments Comment[]
+
+  @@index([featured])
+  @@index([seriesName])
+  @@index([publishedAt])
+  @@index([tags])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  sermonId  String
+  userId    String
+  parentId  String?
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  flagged   Boolean  @default(false)
+
+  sermon  Sermon    @relation(fields: [sermonId], references: [id], onDelete: Cascade)
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
+  likes   CommentLike[]
+
+  @@index([sermonId])
+  @@index([userId])
+  @@index([parentId])
+  @@index([createdAt])
+}
+
+model CommentLike {
+  id        String @id @default(cuid())
+  commentId String
+  userId    String
+
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+  @@index([commentId])
+}
+
+model PrayerRequest {
+  id          String         @id @default(cuid())
+  userId      String
+  title       String
+  content     String         @db.Text
+  category    PrayerCategory @default(GENERAL)
+  anonymous   Boolean        @default(false)
+  answered    Boolean        @default(false)
+  answeredAt  DateTime?
+  testimony   String?        @db.Text
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  intercessions Intercession[]
+  likes         PrayerLike[]
+
+  @@index([userId])
+  @@index([category])
+  @@index([answered])
+  @@index([createdAt])
+}
+
+model Intercession {
+  id              String   @id @default(cuid())
+  prayerRequestId String
+  userId          String
+  createdAt       DateTime @default(now())
+
+  prayerRequest PrayerRequest @relation(fields: [prayerRequestId], references: [id], onDelete: Cascade)
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([prayerRequestId, userId])
+  @@index([prayerRequestId])
+}
+
+model PrayerLike {
+  id              String @id @default(cuid())
+  prayerRequestId String
+  userId          String
+
+  prayerRequest PrayerRequest @relation(fields: [prayerRequestId], references: [id], onDelete: Cascade)
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([prayerRequestId, userId])
+  @@index([prayerRequestId])
+}
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   @db.Text
+  authorId    String
+  pinned      Boolean  @default(false)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([pinned])
+  @@index([publishedAt])
+}

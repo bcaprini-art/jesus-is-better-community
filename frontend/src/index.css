@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream text-gray-800 font-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gold text-white font-semibold px-6 py-3 rounded-lg hover:bg-gold-dark transition-colors duration-200 inline-block;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border-2 border-gold text-gold font-semibold px-6 py-3 rounded-lg hover:bg-gold hover:text-white transition-colors duration-200 inline-block;
+  }
+
+  .btn-navy {
+    @apply bg-navy text-white font-semibold px-6 py-3 rounded-lg hover:bg-navy-dark transition-colors duration-200 inline-block;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden;
+  }
+
+  .section-title {
+    @apply font-serif text-3xl font-bold text-navy mb-2;
+  }
+
+  .section-subtitle {
+    @apply text-gray-500 text-lg;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F0EDE8;
+}
+::-webkit-scrollbar-thumb {
+  background: #C4922A;
+  border-radius: 3px;
+}
