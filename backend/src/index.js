@@ -1,4 +1,5 @@
 // Jesus Is Better Community — API Server
+require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
 const cors = require('cors');
