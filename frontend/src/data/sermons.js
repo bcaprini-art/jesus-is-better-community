@@ -5,7 +5,7 @@ export const SERMONS = [
     scriptureRef: 'Romans 3:21-26',
     seriesName: 'Jesus Is Better',
     description: "The gospel isn't just the starting line. It's the whole race. In Romans 3, Paul shows us the mechanism of transformation — and it isn't trying harder. It is beholding more clearly the one who became sin for us so that we might become the righteousness of God.",
-    videoUrl: null,
+    videoUrl: 'https://www.youtube.com/embed/2QYsngRNiwk',
     thumbnailUrl: null,
     publishedAt: '2026-04-20',
     durationSeconds: 2847,
