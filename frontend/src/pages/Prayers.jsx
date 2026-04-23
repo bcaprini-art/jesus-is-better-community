@@ -47,11 +47,13 @@ export default function Prayers() {
           Jesus Is Better Community
         </span>
         <h1 className="font-serif text-white text-4xl md:text-5xl font-bold mb-3">The Prayer Wall</h1>
-        <p className="text-gray-300 text-lg italic max-w-xl mx-auto">
-          "Do not be anxious about anything, but in every situation, by prayer and petition, 
-          with thanksgiving, present your requests to God."
+        <p className="text-gray-300 text-lg max-w-xl mx-auto mb-3 leading-relaxed">
+          The gospel I am describing is not for people who have their spiritual lives together. It is for people who have run out of their own resources entirely.
         </p>
-        <p className="text-gold mt-2 text-sm">— Philippians 4:6</p>
+        <p className="text-gold italic text-sm mb-1">— Rob Bugh, <em>Jesus Is Better</em></p>
+        <p className="text-gray-400 italic text-sm mt-3 max-w-lg mx-auto">
+          "Come to me, all who are weary and burdened, and I will give you rest." — Matthew 11:28
+        </p>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
